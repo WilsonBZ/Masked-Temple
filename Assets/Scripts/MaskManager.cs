@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Tilemaps;
 
 
@@ -20,6 +21,9 @@ public class MaskManager : MonoBehaviour
     public Transform[] points;
     public Tilemap tileMap;
 
+    [SerializeField] private CutsceneManager cutsceneManager;
+    [SerializeField] private PlayableDirector cutscene;
+
     private Transform player;
     private Transform mainCamera;
 
@@ -28,6 +32,7 @@ public class MaskManager : MonoBehaviour
     private float cooldownTimer;
 
     // Mask
+    public static bool cutSceneMask = false;
     public static bool canSwitch = false;
     public static int maskNum = 0;
     [SerializeField] private float switchDistance = 20.0f;
@@ -79,26 +84,37 @@ public class MaskManager : MonoBehaviour
         }
     }
 
+    public void TeleportObjects()
+    {
+        if (maskNum == 0)
+        {
+            maskNum = 1;
+            player.position = new Vector2(player.position.x, player.position.y - switchDistance);
+            mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y - switchDistance, mainCamera.position.z);
+        }
+
+        else
+        {
+            maskNum = 0;
+            player.position = new Vector2(player.position.x, player.position.y + switchDistance);
+            mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y + switchDistance, mainCamera.position.z);
+        }
+    }
+
     private void SwitchMask()
     {
+        if (Input.GetKeyDown(KeyCode.W) && cutSceneMask)
+        {
+            cutsceneManager.SetCutscene(cutscene, 2);
+            cutsceneManager.PlayCutscene();
+            cutSceneMask = false;
+
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.W) && CanSwitchMask() && canSwitch) {
             cooldownTimer = cooldownTime;
-
-            if (maskNum == 0)
-            {
-                maskNum = 1;
-                player.position = new Vector2(player.position.x, player.position.y - switchDistance);
-                mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y - switchDistance, mainCamera.position.z);
-            }
-
-
-            else
-            {
-                maskNum = 0;
-                player.position = new Vector2(player.position.x, player.position.y + switchDistance);
-                mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y + switchDistance, mainCamera.position.z);
-            }
-
+            TeleportObjects();
             BlockedSwitch();
         }
     }

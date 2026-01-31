@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Mask : MonoBehaviour
 {
+    [SerializeField] private CutsceneManager cutsceneManager;
+    [SerializeField] private PlayableDirector cutscene;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip pickUpSound;
 
@@ -12,9 +15,10 @@ public class Mask : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             audioSource.PlayOneShot(pickUpSound);
-            MaskManager.canSwitch = true;
             canDestroy = true;
             transform.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            cutsceneManager.SetCutscene(cutscene, 1);
+            cutsceneManager.PlayCutscene();
         }
     }
 
