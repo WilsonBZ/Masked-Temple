@@ -1,7 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 
 public class CameraScript : MonoBehaviour
 {
@@ -36,7 +33,23 @@ public class CameraScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FollowPlayer();
         MoveCamera(CheckCollider());
+    }
+
+    private void FollowPlayer()
+    {
+        if (points[pointIndex].position.z == 1) {
+            float newPosX = player.position.x;
+
+            if (newPosX < points[pointIndex].position.x)
+                newPosX = points[pointIndex].position.x;
+
+            else if (newPosX > points[pointIndex].GetChild(0).position.x)
+                newPosX = points[pointIndex].GetChild(0).position.x;
+
+            transform.position = new Vector3(newPosX, transform.position.y, transform.position.z);
+        }
     }
 
     private int CheckCollider()
@@ -81,9 +94,19 @@ public class CameraScript : MonoBehaviour
                 return;
             }
 
-            transform.position = new Vector3(points[pointIndex].position.x, transform.position.y, transform.position.z);
-            pos = transform.position;
-            player.position = new Vector2(pos.x + colliderPos.x - 0.5f, player.position.y);
+            if (points[pointIndex].position.z > 0)
+            {
+                transform.position = new Vector3(points[pointIndex].GetChild(0).position.x, transform.position.y, transform.position.z);
+                pos = transform.position;
+                player.position = new Vector2(pos.x + colliderPos.x - 0.5f, player.position.y);
+            }
+
+            else
+            {
+                transform.position = new Vector3(points[pointIndex].position.x, transform.position.y, transform.position.z);
+                pos = transform.position;
+                player.position = new Vector2(pos.x + colliderPos.x - 0.5f, player.position.y);
+            }
         }
     }
 }
