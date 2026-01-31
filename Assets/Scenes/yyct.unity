@@ -7707,6 +7707,14 @@ PrefabInstance:
       propertyPath: m_DrawMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2969990989418159753, guid: 3d11719c78b6ecf4a8b06c68015a4f95, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 102596116}
+    - target: {fileID: 2969990989418159753, guid: 3d11719c78b6ecf4a8b06c68015a4f95, type: 3}
+      propertyPath: animationController
+      value: 
+      objectReference: {fileID: 102596116}
     - target: {fileID: 3199213604553050929, guid: 3d11719c78b6ecf4a8b06c68015a4f95, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
