@@ -6,9 +6,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private AudioClip jumpSound;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Animator aPress;
+    [SerializeField] private Animator dPress;
+    [SerializeField] private Animator sbPress;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
+
+    public bool canMove = true;
 
     // Horizontal Movement
     [SerializeField] private float movementSpeed = 1.0f;
@@ -46,15 +51,30 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         UpdateTimer();
+
         HorizontalMovement();
         Jump();
+        
         UpdateAnimations();
     }
 
     private void HorizontalMovement()
     {
+        if (!canMove)
+        {
+            horizontalInput = 0;
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(horizontalInput * movementSpeed, rb.linearVelocity.y);
+
+        if (aPress != null && horizontalInput != 0)
+        {
+            aPress.GetComponent<FadeAway>().Fade();
+            dPress.GetComponent<FadeAway>().Fade();
+        }
     }
 
     private void UpdateTimer()
@@ -85,6 +105,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        if (!canMove)
+            return;
+
         if (Input.GetButtonDown("Jump"))
         {
             bufferTimer = bufferTime;
@@ -99,6 +122,11 @@ public class PlayerMovement : MonoBehaviour
 
             audioSource.pitch = Random.Range(0.3f, 0.5f);
             audioSource.PlayOneShot(jumpSound);
+
+            if (sbPress != null && sbPress.GetComponent<FadeAway>().isActiveAndEnabled)
+            {
+                sbPress.GetComponent<FadeAway>().Fade();
+            }
         }
     }
 
@@ -119,6 +147,8 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
             animator.SetBool("isRunning", true);
         }
+
+        CheckCanJump();
 
         if (!isGrounded)
         {
