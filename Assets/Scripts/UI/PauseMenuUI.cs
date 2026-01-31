@@ -11,7 +11,7 @@ public class PauseMenuUi : MonoBehaviour
     [SerializeField] private Button quitButtonPrefab;
 
     [Header("Optional UI")]
-    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject settingsPanel;     
     [SerializeField] private string quitToSceneName = "";
 
     [Header("Behavior")]
