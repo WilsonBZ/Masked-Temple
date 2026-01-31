@@ -4,6 +4,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioSource audioSource;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
@@ -95,7 +97,8 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             isJumping = true;
 
-
+            audioSource.pitch = Random.Range(0.3f, 0.5f);
+            audioSource.PlayOneShot(jumpSound);
         }
     }
 
