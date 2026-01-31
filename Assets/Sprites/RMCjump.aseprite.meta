@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: RMCjump
     originalName: 
-    pivot: {x: 0.51724136, y: -0.07692308}
+    pivot: {x: 0.58695656, y: -0.05}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 58
-      height: 39
+      width: 46
+      height: 40
     spriteID: 0ecbc63bfc5e14446a0e270f4f1b7453
     spriteBone: []
     spriteOutline: []
@@ -167,10 +167,10 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 2
-        y: 3
-        width: 58
-        height: 39
+        x: 5
+        y: 2
+        width: 46
+        height: 40
       spriteId: 0ecbc63bfc5e14446a0e270f4f1b7453
     linkedCells: []
     tileCells: []
@@ -182,4 +182,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 64, y: 64}
-  previousTextureSize: {x: 128, y: 64}
+  previousTextureSize: {x: 64, y: 64}
