@@ -94,12 +94,16 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocityY = 0;
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             isJumping = true;
+
+
         }
     }
 
     private void UpdateAnimations()
     {
         animator.SetBool("isRunning", false);
+        animator.SetBool("isGrounded", true);
+        animator.SetBool("isMasked", false);
 
         if (horizontalInput < 0)
         {
@@ -113,6 +117,12 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isRunning", true);
         }
 
+        if (!isGrounded)
+        {
+            animator.SetBool("isGrounded", false);
+        } 
 
+        if (MaskManager.maskNum == 1)
+            animator.SetBool("isMasked", true);
     }
 }

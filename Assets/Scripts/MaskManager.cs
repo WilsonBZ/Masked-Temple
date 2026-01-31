@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -30,7 +29,7 @@ public class MaskManager : MonoBehaviour
 
     // Mask
     public static bool canSwitch = false;
-    private int maskNum = 0;
+    public static int maskNum = 0;
     [SerializeField] private float switchDistance = 20.0f;
 
     // Blocked Switch
