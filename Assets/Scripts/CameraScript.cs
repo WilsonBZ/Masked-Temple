@@ -68,7 +68,7 @@ public class CameraScript : MonoBehaviour
 
             transform.position = new Vector3(points[pointIndex].position.x, transform.position.y, transform.position.z);
             pos = transform.position;
-            player.position = new Vector2(pos.x - colliderPos.x + player.localScale.x, player.position.y);
+            player.position = new Vector2(pos.x - colliderPos.x + 0.5f, player.position.y);
         }
 
         else if (action == 2)
@@ -83,7 +83,7 @@ public class CameraScript : MonoBehaviour
 
             transform.position = new Vector3(points[pointIndex].position.x, transform.position.y, transform.position.z);
             pos = transform.position;
-            player.position = new Vector2(pos.x + colliderPos.x - player.localScale.x, player.position.y);
+            player.position = new Vector2(pos.x + colliderPos.x - 0.5f, player.position.y);
         }
     }
 }
