@@ -3,12 +3,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
+
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
 
     // Horizontal Movement
     [SerializeField] private float movementSpeed = 1.0f;
     private float horizontalInput;
+    private float scaleX;
 
     // Jump
     [SerializeField] private float jumpPower = 1.0f;
@@ -34,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        scaleX = transform.localScale.x;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -42,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateTimer();
         HorizontalMovement();
         Jump();
+        UpdateAnimations();
     }
 
     private void HorizontalMovement()
@@ -85,9 +90,29 @@ public class PlayerMovement : MonoBehaviour
 
         if (CheckCanJump() && (Input.GetButtonDown("Jump") || bufferTimer > 0) && !isJumping)
         {
+            bufferTimer = 0;
             rb.linearVelocityY = 0;
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             isJumping = true;
         }
+    }
+
+    private void UpdateAnimations()
+    {
+        animator.SetBool("isRunning", false);
+
+        if (horizontalInput < 0)
+        {
+            transform.localScale = new Vector3(scaleX * -1, transform.localScale.y, transform.localScale.z);
+            animator.SetBool("isRunning", true);
+        }
+
+        else if (horizontalInput > 0)
+        {
+            transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+            animator.SetBool("isRunning", true);
+        }
+
+
     }
 }
