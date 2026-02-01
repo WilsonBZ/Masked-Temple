@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private float volume = 0.2f;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.limeGreen;
@@ -121,6 +123,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
 
             audioSource.pitch = Random.Range(0.3f, 0.5f);
+            audioSource.volume = volume;
             audioSource.PlayOneShot(jumpSound);
 
             if (sbPress != null && sbPress.GetComponent<FadeAway>().isActiveAndEnabled)
