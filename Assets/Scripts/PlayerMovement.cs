@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0, jumpPower), ForceMode2D.Impulse);
             isJumping = true;
 
-            audioSource.pitch = Random.Range(0.3f, 0.5f);
+            audioSource.pitch = Random.Range(0.35f, 0.45f);
             audioSource.volume = volume;
             audioSource.PlayOneShot(jumpSound);
 

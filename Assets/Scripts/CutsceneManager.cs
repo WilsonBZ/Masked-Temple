@@ -5,6 +5,7 @@ public class CutsceneManager : MonoBehaviour
 {
     [SerializeField] private PlayableDirector cutscene;
     [SerializeField] private MaskManager mManager;
+    [SerializeField] private AudioManager aManager;
     private PlayerMovement player;
 
     private bool cutscenePlaying = false;
@@ -15,6 +16,7 @@ public class CutsceneManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerMovement>();
         PlayCutscene();
+        aManager.PlayMusic();
     }
 
     // Update is called once per frame

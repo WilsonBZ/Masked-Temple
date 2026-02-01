@@ -24,7 +24,9 @@ public class MaskManager : MonoBehaviour
     [SerializeField] private CutsceneManager cutsceneManager;
     [SerializeField] private PlayableDirector cutscene;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource1;
     [SerializeField] private AudioClip clipSound;
+    [SerializeField] private AudioClip switchSound;
 
     private Transform player;
     private Transform mainCamera;
@@ -35,9 +37,13 @@ public class MaskManager : MonoBehaviour
 
     // Mask
     public static bool cutSceneMask = false;
-    public static bool canSwitch = true;
+    public static bool canSwitch = false;
     public static int maskNum = 0;
     [SerializeField] private float switchDistance = 20.0f;
+
+    // Buffer
+    private float bufferTime = 0.1f;
+    private float bufferTimer;
 
     // Blocked Switch
     private List<TileInfo> disabledTiles = new List<TileInfo>();
@@ -60,6 +66,7 @@ public class MaskManager : MonoBehaviour
     private void UpdateTimer()
     {
         cooldownTimer = Mathf.Clamp(cooldownTimer - Time.deltaTime, 0, cooldownTime);
+        bufferTimer = Mathf.Clamp(bufferTimer - Time.deltaTime, 0, bufferTime);
     }
 
     private bool CanSwitchMask()
@@ -110,10 +117,19 @@ public class MaskManager : MonoBehaviour
             player.position = new Vector2(player.position.x, player.position.y + switchDistance);
             mainCamera.position = new Vector3(mainCamera.position.x, mainCamera.position.y + switchDistance, mainCamera.position.z);
         }
+
+        audioSource1.volume = 0.4f;
+        audioSource1.pitch = 1;
+        audioSource1.PlayOneShot(switchSound);
     }
 
     private void SwitchMask()
     {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            bufferTimer = bufferTime;
+        }
+
         if (Input.GetKeyDown(KeyCode.W) && cutSceneMask)
         {
             cutsceneManager.SetCutscene(cutscene, 2);
@@ -123,7 +139,8 @@ public class MaskManager : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && CanSwitchMask() && canSwitch) {
+        if ((Input.GetKeyDown(KeyCode.W) || bufferTimer > 0) && CanSwitchMask() && canSwitch) {
+            bufferTimer = 0;
             cooldownTimer = cooldownTime;
             TeleportObjects();
             BlockedSwitch();
