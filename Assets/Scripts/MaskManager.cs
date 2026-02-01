@@ -23,17 +23,19 @@ public class MaskManager : MonoBehaviour
 
     [SerializeField] private CutsceneManager cutsceneManager;
     [SerializeField] private PlayableDirector cutscene;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip clipSound;
 
     private Transform player;
     private Transform mainCamera;
 
     // Cooldown
-    private float cooldownTime = 0.75f;
+    private float cooldownTime = 0.5f;
     private float cooldownTimer;
 
     // Mask
     public static bool cutSceneMask = false;
-    public static bool canSwitch = false;
+    public static bool canSwitch = true;
     public static int maskNum = 0;
     [SerializeField] private float switchDistance = 20.0f;
 
@@ -70,6 +72,7 @@ public class MaskManager : MonoBehaviour
 
     private void BlockedSwitch()
     {
+        bool clip = false;
         for (int i = 0; i < points.Length; i++)
         {
             Vector3Int tilePos = tileMap.WorldToCell(points[i].position);
@@ -81,6 +84,14 @@ public class MaskManager : MonoBehaviour
             disabledTiles.Add(tileInfo);
 
             tileMap.SetTile(tilePos, null);
+            clip = true;
+        }
+
+        if (clip)
+        {
+            audioSource.volume = 0.15f;
+            audioSource.pitch = 1;
+            audioSource.PlayOneShot(clipSound);
         }
     }
 
