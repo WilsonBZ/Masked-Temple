@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour
 {
@@ -57,6 +58,11 @@ public class CutsceneManager : MonoBehaviour
         {
             mManager.TeleportObjects();
             MaskManager.canSwitch = true;
+        }
+
+        else if (cutSceneEnd == 3)
+        {
+            SceneManager.LoadScene("Main Menu");
         }
 
         cutSceneEnd = 0;
